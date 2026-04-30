@@ -1,0 +1,380 @@
+.my-boards-page {
+  min-height: 100vh;
+  background-color: #FFF8DC;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Navigation Bar */
+.navbar {
+  height: 70px;
+  background-color: white;
+  border-bottom: 3px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-logo {
+  font-family: 'Impact', sans-serif;
+  font-size: 26px;
+  color: #FF69B4;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.nav-logo:hover {
+  transform: scale(1.05);
+}
+
+.nav-title {
+  font-family: 'Arial', sans-serif;
+  font-size: 22px;
+  font-weight: bold;
+  color: #2C3E50;
+  flex: 1;
+  text-align: center;
+}
+
+.new-board-btn {
+  padding: 10px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background-color: #FF69B4;
+  border: 2px solid black;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.new-board-btn:hover {
+  transform: scale(1.05);
+}
+
+/* Gallery Header */
+.gallery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 80px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.gallery-title {
+  font-family: 'Impact', sans-serif;
+  font-size: 42px;
+  color: #2C3E50;
+}
+
+.sort-dropdown select {
+  padding: 8px 15px;
+  font-size: 14px;
+  border: 2px solid black;
+  border-radius: 6px;
+  background-color: white;
+  cursor: pointer;
+}
+
+/* Board Grid */
+.board-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 400px);
+  gap: 40px 40px;
+  justify-content: center;
+  padding: 40px 80px 100px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Board Card */
+.board-card {
+  width: 400px;
+  height: 460px;
+  background-color: white;
+  border: 3px solid black;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.board-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Rotations for playful effect */
+.rotation-0 {
+  transform: rotate(-2deg);
+}
+
+.rotation-1 {
+  transform: rotate(1deg);
+}
+
+.rotation-2 {
+  transform: rotate(-1.5deg);
+}
+
+.rotation-3 {
+  transform: rotate(2deg);
+}
+
+.rotation-4 {
+  transform: rotate(-1deg);
+}
+
+.rotation-5 {
+  transform: rotate(1.5deg);
+}
+
+.rotation-0:hover {
+  transform: rotate(-2deg) translateY(-5px) scale(1.02);
+}
+
+.rotation-1:hover {
+  transform: rotate(1deg) translateY(-5px) scale(1.02);
+}
+
+.rotation-2:hover {
+  transform: rotate(-1.5deg) translateY(-5px) scale(1.02);
+}
+
+.rotation-3:hover {
+  transform: rotate(2deg) translateY(-5px) scale(1.02);
+}
+
+.rotation-4:hover {
+  transform: rotate(-1deg) translateY(-5px) scale(1.02);
+}
+
+.rotation-5:hover {
+  transform: rotate(1.5deg) translateY(-5px) scale(1.02);
+}
+
+/* Board Image Area */
+.board-image {
+  width: 100%;
+  height: 400px;
+  background-color: #F5F5F5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.placeholder-content {
+  text-align: center;
+}
+
+.placeholder-icon {
+  font-size: 80px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.placeholder-text {
+  font-size: 18px;
+  color: #999;
+}
+
+/* Board Label */
+.board-label {
+  height: 60px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+}
+
+.board-name {
+  font-family: 'Comic Sans MS', cursive;
+  font-size: 20px;
+  color: #2C3E50;
+  text-align: center;
+  margin: 0;
+}
+
+/* Floating Action Button */
+.fab {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #FF69B4;
+  border: 3px solid black;
+  box-shadow: 4px 4px 0px black;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+  z-index: 50;
+}
+
+.fab:hover {
+  transform: scale(1.1);
+}
+
+.fab-icon {
+  font-size: 48px;
+  font-weight: bold;
+  color: white;
+  line-height: 1;
+}
+
+/* Background Decorations */
+.bg-decoration {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.circle {
+  border-radius: 50%;
+}
+
+.bg-circle-1 {
+  width: 18px;
+  height: 18px;
+  background-color: #FF69B4;
+  top: 150px;
+  left: 50px;
+}
+
+.bg-circle-2 {
+  width: 22px;
+  height: 22px;
+  background-color: #FFD700;
+  top: 160px;
+  right: 60px;
+}
+
+.bg-circle-3 {
+  width: 15px;
+  height: 15px;
+  background-color: #40E0D0;
+  top: 500px;
+  left: 100px;
+}
+
+.bg-circle-4 {
+  width: 20px;
+  height: 20px;
+  background-color: #9370DB;
+  top: 600px;
+  right: 80px;
+}
+
+.bg-circle-5 {
+  width: 25px;
+  height: 25px;
+  background-color: #FF6347;
+  bottom: 150px;
+  left: 40px;
+}
+
+.star {
+  font-size: 20px;
+}
+
+.bg-star-1 {
+  top: 400px;
+  left: 60px;
+  transform: rotate(15deg);
+}
+
+.bg-star-2 {
+  top: 300px;
+  right: 100px;
+  font-size: 24px;
+  transform: rotate(-20deg);
+}
+
+.bg-star-3 {
+  bottom: 200px;
+  right: 50px;
+  font-size: 18px;
+  transform: rotate(10deg);
+}
+
+.heart {
+  font-size: 28px;
+}
+
+.bg-heart-1 {
+  top: 550px;
+  right: 60px;
+  transform: rotate(12deg);
+}
+
+.bg-heart-2 {
+  bottom: 250px;
+  left: 45px;
+  font-size: 32px;
+  transform: rotate(-15deg);
+}
+
+/* Responsive */
+@media (max-width: 1400px) {
+  .board-grid {
+    grid-template-columns: repeat(2, 400px);
+  }
+}
+
+@media (max-width: 900px) {
+  .board-grid {
+    grid-template-columns: 400px;
+    padding: 40px 20px 100px;
+  }
+
+  .gallery-header {
+    padding: 30px 20px 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .nav-title {
+    font-size: 18px;
+  }
+
+  .new-board-btn {
+    padding: 8px 20px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 500px) {
+  .board-grid {
+    grid-template-columns: 90%;
+  }
+
+  .board-card {
+    width: 100%;
+    height: auto;
+  }
+
+  .board-image {
+    height: 350px;
+  }
+
+  .fab {
+    width: 60px;
+    height: 60px;
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .fab-icon {
+    font-size: 36px;
+  }
+}

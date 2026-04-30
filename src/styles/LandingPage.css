@@ -1,0 +1,285 @@
+.landing-page {
+  min-height: 100vh;
+  background-color: #FFF8DC;
+  padding: 40px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Logo Styles */
+.logo {
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 40px;
+  line-height: 1.2;
+}
+
+.letter {
+  display: inline-block;
+  font-size: 80px;
+  font-weight: bold;
+  margin: 0 2px;
+}
+
+/* First line - Vision */
+.letter-v {
+  font-family: 'Arial Black', sans-serif;
+  color: #FF69B4;
+  transform: rotate(-8deg);
+}
+
+.letter-i1 {
+  font-family: 'Comic Sans MS', cursive;
+  color: #40E0D0;
+}
+
+.letter-s {
+  font-family: 'Impact', sans-serif;
+  color: #FFD700;
+  transform: rotate(5deg);
+}
+
+.letter-i2 {
+  font-family: 'Courier New', monospace;
+  color: #9370DB;
+  transform: rotate(-3deg);
+}
+
+.letter-o {
+  font-family: 'Georgia', serif;
+  color: #FF6347;
+}
+
+.letter-n {
+  font-family: 'Arial Black', sans-serif;
+  color: #2C3E50;
+  transform: rotate(8deg);
+}
+
+/* Second line - Board */
+.letter-b {
+  font-family: 'Impact', sans-serif;
+  color: #9370DB;
+  transform: rotate(-5deg);
+}
+
+.letter-o2 {
+  font-family: 'Comic Sans MS', cursive;
+  color: #FF69B4;
+}
+
+.letter-a {
+  font-family: 'Arial Black', sans-serif;
+  color: #40E0D0;
+  transform: rotate(4deg);
+}
+
+.letter-r {
+  font-family: 'Impact', sans-serif;
+  color: #FFD700;
+  transform: rotate(-2deg);
+}
+
+.letter-d {
+  font-family: 'Arial Black', sans-serif;
+  color: #FF6347;
+  transform: rotate(6deg);
+}
+
+/* Decorative stickers */
+.star, .heart, .sparkle {
+  position: absolute;
+  font-size: 40px;
+}
+
+.star-1 {
+  top: 80px;
+  left: 30%;
+  transform: rotate(15deg);
+}
+
+.star-2 {
+  top: 100px;
+  right: 30%;
+  transform: rotate(-20deg);
+}
+
+.heart-1 {
+  top: 200px;
+  right: 25%;
+  font-size: 50px;
+  transform: rotate(10deg);
+}
+
+.circle {
+  position: absolute;
+  border-radius: 50%;
+  background-color: #40E0D0;
+}
+
+.circle-1 {
+  width: 35px;
+  height: 35px;
+  top: 220px;
+  left: 25%;
+}
+
+.sparkle-1 {
+  top: 240px;
+  right: 28%;
+  font-size: 28px;
+  transform: rotate(-12deg);
+}
+
+/* Tagline */
+.tagline {
+  text-align: center;
+  font-size: 24px;
+  color: #2C3E50;
+  margin: 30px auto;
+  max-width: 400px;
+}
+
+/* CTA Button */
+.cta-button {
+  display: block;
+  margin: 40px auto;
+  padding: 18px 40px;
+  font-size: 22px;
+  font-weight: bold;
+  color: white;
+  background-color: #FF69B4;
+  border: 3px solid black;
+  border-radius: 8px;
+  cursor: pointer;
+  transform: rotate(-2deg);
+  transition: transform 0.2s;
+  position: relative;
+}
+
+.cta-button:hover {
+  transform: rotate(-2deg) scale(1.05);
+}
+
+.button-sparkle {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  font-size: 22px;
+}
+
+/* Section Title */
+.section-title {
+  text-align: center;
+  font-size: 42px;
+  font-family: 'Impact', sans-serif;
+  color: #2C3E50;
+  margin: 60px 0 40px;
+}
+
+/* Feature Cards */
+.feature-cards {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.feature-card {
+  width: 320px;
+  min-height: 280px;
+  background: white;
+  border: 3px solid black;
+  border-radius: 12px;
+  padding: 30px 20px;
+  text-align: center;
+  box-shadow: 4px 4px 0px black;
+}
+
+.card-1 {
+  transform: rotate(-1.5deg);
+}
+
+.card-2 {
+  transform: rotate(1deg);
+}
+
+.card-3 {
+  transform: rotate(-2deg);
+}
+
+.card-image {
+  font-size: 64px;
+  margin-bottom: 20px;
+}
+
+.card-title {
+  font-family: 'Impact', sans-serif;
+  font-size: 28px;
+  color: #2C3E50;
+  margin-bottom: 15px;
+}
+
+.card-description {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* Background decorations */
+.bg-star, .bg-heart {
+  position: absolute;
+  opacity: 0.6;
+}
+
+.bg-star-1 {
+  font-size: 18px;
+  top: 500px;
+  left: 10%;
+}
+
+.bg-star-2 {
+  font-size: 20px;
+  top: 450px;
+  right: 8%;
+}
+
+.bg-heart-1 {
+  font-size: 28px;
+  bottom: 100px;
+  left: 5%;
+}
+
+.bg-circle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.5;
+}
+
+.bg-circle-1 {
+  width: 20px;
+  height: 20px;
+  background-color: #FFD700;
+  bottom: 150px;
+  right: 10%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .letter {
+    font-size: 50px;
+  }
+
+  .feature-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .feature-card {
+    width: 90%;
+    max-width: 350px;
+  }
+}
