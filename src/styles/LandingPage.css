@@ -1,3 +1,79 @@
+/* Navigation Bar */
+.navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+  background: transparent;
+  z-index: 100;
+}
+
+.nav-logo {
+  font-family: 'Impact', sans-serif;
+  font-size: 24px;
+  color: #FF69B4;
+  font-weight: bold;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.login-btn {
+  padding: 10px 25px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #2C3E50;
+  background: white;
+  border: 2px solid black;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.login-btn:hover {
+  transform: scale(1.05);
+}
+
+.signup-btn {
+  padding: 10px 25px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background: #FF69B4;
+  border: 2px solid black;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.signup-btn:hover {
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 15px 20px;
+  }
+
+  .nav-logo {
+    font-size: 20px;
+  }
+
+  .nav-buttons {
+    gap: 10px;
+  }
+
+  .login-btn, .signup-btn {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+}
 .landing-page {
   min-height: 100vh;
   background-color: #FFF8DC;

@@ -7,6 +7,19 @@ function LandingPage() {
 
   return (
     <div className="landing-page">
+      {/* Navigation Bar */}
+      <nav className="navbar">
+        <div className="nav-logo">Vision Board</div>
+        <div className="nav-buttons">
+          <button className="login-btn" onClick={() => navigate('/login')}>
+            Log In
+          </button>
+          <button className="signup-btn" onClick={() => navigate('/signup')}>
+            Sign Up
+          </button>
+        </div>
+      </nav>
+
       {/* Logo */}
       <div className="logo">
         <span className="letter letter-v">V</span>
@@ -34,7 +47,7 @@ function LandingPage() {
       <p className="tagline">Create your dream life collage ✨</p>
 
       {/* CTA Button */}
-      <button className="cta-button" onClick={() => navigate('/editor')}>
+      <button className="cta-button" onClick={() => navigate('/signup')}>
         manifest
         <span className="button-sparkle">⭐</span>
       </button>
