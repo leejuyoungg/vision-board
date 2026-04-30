@@ -1,7 +1,32 @@
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Vision Board Maker
 
+A full-stack web application for creating personalized vision boards.
+
+## Features
+- 🔍 Image search integration (Unsplash API)
+- ✨ Interactive canvas editor with drag-and-drop
+- 🎨 Text and sticker decorations
+- 💾 Save and load boards from database
+- 📱 Export as wallpaper
+
+## Tech Stack
+- **Frontend:** React, Fabric.js, CSS
+- **Backend:** Node.js, Express
+- **Database:** MongoDB Atlas
+- **Authentication:** JWT
+
+## Setup
+### Backend
+cd backend
+npm install
+npm run dev
+
+### Frontend
+npm install
+npm start
 ## Available Scripts
 
 In the project directory, you can run:
