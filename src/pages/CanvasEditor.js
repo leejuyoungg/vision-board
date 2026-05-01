@@ -18,40 +18,56 @@ function CanvasEditor() {
   const [selectedFont, setSelectedFont] = useState('Arial');
   const [selectedColor, setSelectedColor] = useState('#FF69B4');
   const [fontSize, setFontSize] = useState(24);
-  const [boardName, setBoardName] = useState('My Vision Board 2025');
+  const [boardName, setBoardName] = useState('My Vision Board');
   const [isSaving, setIsSaving] = useState(false);
   const [currentBoardId, setCurrentBoardId] = useState(null);
+  const [history, setHistory] = useState([]);
+  const [historyStep, setHistoryStep] = useState(-1);
+  const [showGrid, setShowGrid] = useState(false);
 
-  // Initialize canvas
-  useEffect(() => {
-    if (canvasRef.current && !fabricCanvasRef.current) {
-      fabricCanvasRef.current = new fabric.Canvas(canvasRef.current, {
-        width: 800,
-        height: 800,
-        backgroundColor: '#ffffff',
-      });
+// Initialize canvas
+useEffect(() => {
+  if (canvasRef.current && !fabricCanvasRef.current) {
+    // Set canvas element size first
+    canvasRef.current.width = 800;
+    canvasRef.current.height = 800;
+    
+    fabricCanvasRef.current = new fabric.Canvas(canvasRef.current, {
+      width: 800,
+      height: 800,
+      backgroundColor: '#ffffff',
+    });
 
-      // Add placeholder text
-      const placeholderText = new fabric.IText('Drag images here to start! ✨', {
-        left: 400,
-        top: 400,
-        fontSize: 24,
-        fill: '#cccccc',
-        fontFamily: 'Arial',
-        originX: 'center',
-        originY: 'center',
-        selectable: false,
-      });
-      fabricCanvasRef.current.add(placeholderText);
-    }
+    // Add placeholder text
+    const placeholderText = new fabric.IText('Drag images here to start! ✨', {
+      left: 400,
+      top: 400,
+      fontSize: 24,
+      fill: '#cccccc',
+      fontFamily: 'Arial',
+      originX: 'center',
+      originY: 'center',
+      selectable: false,
+    });
+    fabricCanvasRef.current.add(placeholderText);
 
-    return () => {
+    // Initial history state
+    setTimeout(() => {
       if (fabricCanvasRef.current) {
-        fabricCanvasRef.current.dispose();
-        fabricCanvasRef.current = null;
+        const initialState = fabricCanvasRef.current.toJSON();
+        setHistory([initialState]);
+        setHistoryStep(0);
       }
-    };
-  }, []);
+    }, 100);
+  }
+
+  return () => {
+    if (fabricCanvasRef.current) {
+      fabricCanvasRef.current.dispose();
+      fabricCanvasRef.current = null;
+    }
+  };
+}, []);
 
   // Load board if boardId is in URL
   useEffect(() => {
@@ -75,9 +91,28 @@ function CanvasEditor() {
       setCurrentBoardId(board._id);
       
       // Load canvas data
-      if (board.canvasData) {
+      if (board.canvasData && fabricCanvasRef.current) {
+        // Clear canvas first
+        fabricCanvasRef.current.clear();
+        
+        // Load with proper image handling
         fabricCanvasRef.current.loadFromJSON(board.canvasData, () => {
           fabricCanvasRef.current.renderAll();
+          
+          // Force re-render all images
+          const objects = fabricCanvasRef.current.getObjects();
+          objects.forEach(obj => {
+            if (obj.type === 'image') {
+              obj.set({ dirty: true });
+            }
+          });
+          fabricCanvasRef.current.renderAll();
+        }, (o, object) => {
+          // This callback is called for each object
+          if (o.type === 'image') {
+            // Ensure crossOrigin is set
+            object.crossOrigin = 'anonymous';
+          }
         });
       }
       
@@ -194,16 +229,158 @@ function CanvasEditor() {
     fabricCanvasRef.current.renderAll();
   };
 
-  // Delete selected object
-  const deleteSelected = () => {
-    if (!fabricCanvasRef.current) return;
+  // Save current state to history
+const saveToHistory = () => {
+  if (!fabricCanvasRef.current) return;
+  
+  const json = fabricCanvasRef.current.toJSON();
+  
+  setHistory(prevHistory => {
+    const newHistory = prevHistory.slice(0, historyStep + 1);
+    newHistory.push(json);
+    setHistoryStep(newHistory.length - 1);
+    return newHistory;
+  });
+};
 
-    const activeObject = fabricCanvasRef.current.getActiveObject();
-    if (activeObject) {
-      fabricCanvasRef.current.remove(activeObject);
-      fabricCanvasRef.current.renderAll();
+// Undo
+const handleUndo = () => {
+  if (historyStep > 0 && history.length > 0) {
+    const previousState = history[historyStep - 1];
+    if (previousState) {
+      fabricCanvasRef.current.loadFromJSON(previousState, () => {
+        fabricCanvasRef.current.renderAll();
+        setHistoryStep(historyStep - 1);
+      });
     }
-  };
+  } else {
+    alert('Nothing to undo!');
+  }
+};
+
+// Redo
+const handleRedo = () => {
+  if (historyStep < history.length - 1 && history.length > 0) {
+    const nextState = history[historyStep + 1];
+    if (nextState) {
+      fabricCanvasRef.current.loadFromJSON(nextState, () => {
+        fabricCanvasRef.current.renderAll();
+        setHistoryStep(historyStep + 1);
+      });
+    }
+  } else {
+    alert('Nothing to redo!');
+  }
+};
+
+// Delete selected object
+const deleteSelected = () => {
+  if (!fabricCanvasRef.current) return;
+
+  const activeObject = fabricCanvasRef.current.getActiveObject();
+  if (activeObject) {
+    fabricCanvasRef.current.remove(activeObject);
+    fabricCanvasRef.current.renderAll();
+    saveToHistory();
+  } else {
+    alert('Please select an object first!');
+  }
+};
+
+// Bring Forward
+const bringForward = () => {
+  if (!fabricCanvasRef.current) return;
+  const activeObject = fabricCanvasRef.current.getActiveObject();
+  if (activeObject) {
+    fabricCanvasRef.current.bringObjectForward(activeObject);
+    fabricCanvasRef.current.renderAll();
+    saveToHistory();
+  } else {
+    alert('Please select an object first!');
+  }
+};
+
+// Send Backward
+const sendBackward = () => {
+  if (!fabricCanvasRef.current) return;
+  const activeObject = fabricCanvasRef.current.getActiveObject();
+  if (activeObject) {
+    fabricCanvasRef.current.sendObjectBackwards(activeObject);
+    fabricCanvasRef.current.renderAll();
+    saveToHistory();
+  } else {
+    alert('Please select an object first!');
+  }
+};
+
+// Toggle Grid
+const toggleGrid = () => {
+  if (!fabricCanvasRef.current) return;
+  
+  setShowGrid(!showGrid);
+  
+  if (!showGrid) {
+    // Add grid
+    const gridSize = 50;
+    const canvasWidth = 800;
+    const canvasHeight = 800;
+    
+    for (let i = 0; i < (canvasWidth / gridSize); i++) {
+      // Vertical lines
+      const lineV = new fabric.Line(
+        [i * gridSize, 0, i * gridSize, canvasHeight],
+        {
+          stroke: '#ccc',
+          strokeWidth: 1,
+          selectable: false,
+          evented: false,
+          id: 'grid-line'
+        }
+      );
+      fabricCanvasRef.current.add(lineV);
+      fabricCanvasRef.current.sendObjectToBack(lineV);
+      
+      // Horizontal lines
+      const lineH = new fabric.Line(
+        [0, i * gridSize, canvasWidth, i * gridSize],
+        {
+          stroke: '#ccc',
+          strokeWidth: 1,
+          selectable: false,
+          evented: false,
+          id: 'grid-line'
+        }
+      );
+      fabricCanvasRef.current.add(lineH);
+      fabricCanvasRef.current.sendObjectToBack(lineH);
+    }
+    fabricCanvasRef.current.renderAll();
+  } else {
+    // Remove grid
+    const objects = fabricCanvasRef.current.getObjects();
+    const gridLines = objects.filter(obj => obj.id === 'grid-line');
+    gridLines.forEach(line => {
+      fabricCanvasRef.current.remove(line);
+    });
+    fabricCanvasRef.current.renderAll();
+  }
+};
+
+// Zoom In
+const zoomIn = () => {
+  if (!fabricCanvasRef.current) return;
+  const currentZoom = fabricCanvasRef.current.getZoom();
+  fabricCanvasRef.current.setZoom(currentZoom * 1.1);
+  fabricCanvasRef.current.renderAll();
+};
+
+// Zoom Out
+const zoomOut = () => {
+  if (!fabricCanvasRef.current) return;
+  const currentZoom = fabricCanvasRef.current.getZoom();
+  fabricCanvasRef.current.setZoom(currentZoom * 0.9);
+  fabricCanvasRef.current.renderAll();
+};
 
   // Save board to MongoDB
   const handleSave = async () => {
@@ -274,7 +451,7 @@ function CanvasEditor() {
     <div className="canvas-editor-page">
       {/* Top Navigation */}
       <nav className="navbar">
-        <div className="nav-logo" onClick={() => navigate('/')}>
+        <div className="nav-logo" onClick={() => navigate('/boards')}>
           Vision Board
         </div>
         
@@ -284,18 +461,6 @@ function CanvasEditor() {
           value={boardName}
           onChange={(e) => setBoardName(e.target.value)}
           placeholder="Board name..."
-          style={{
-            fontFamily: 'Arial, sans-serif',
-            fontSize: '22px',
-            fontWeight: 'bold',
-            color: '#2C3E50',
-            flex: 1,
-            textAlign: 'center',
-            border: 'none',
-            background: 'transparent',
-            outline: 'none',
-            padding: '5px'
-          }}
         />
         
         <div className="nav-buttons">
@@ -328,7 +493,7 @@ function CanvasEditor() {
           </div>
 
           <div className="quick-search-buttons">
-            <button onClick={() => { setSearchQuery('Nature'); handleSearch(); }}>All</button>
+            <button onClick={() => { setSearchQuery('All'); handleSearch(); }}>All</button>
             <button onClick={() => { setSearchQuery('Nature'); handleSearch(); }}>Nature</button>
             <button onClick={() => { setSearchQuery('Fashion'); handleSearch(); }}>Fashion</button>
             <button onClick={() => { setSearchQuery('Quotes'); handleSearch(); }}>Quotes</button>
@@ -353,7 +518,7 @@ function CanvasEditor() {
 
         {/* Center Canvas */}
         <main className="canvas-area">
-          <canvas ref={canvasRef} />
+          <canvas ref={canvasRef} width="800" height="800" />
         </main>
 
         {/* Right Sidebar - Tools */}
@@ -449,14 +614,14 @@ function CanvasEditor() {
 
       {/* Bottom Toolbar */}
       <div className="bottom-toolbar">
-        <button className="toolbar-btn" title="Undo">↶</button>
-        <button className="toolbar-btn" title="Redo">↷</button>
+        <button className="toolbar-btn" onClick={handleUndo} title="Undo">↶</button>
+        <button className="toolbar-btn" onClick={handleRedo} title="Redo">↷</button>
         <button className="toolbar-btn" onClick={deleteSelected} title="Delete">🗑️</button>
-        <button className="toolbar-btn" title="Bring Forward">⬆️</button>
-        <button className="toolbar-btn" title="Send Backward">⬇️</button>
-        <button className="toolbar-btn" title="Toggle Grid">#</button>
-        <button className="toolbar-btn" title="Zoom In">🔍+</button>
-        <button className="toolbar-btn" title="Zoom Out">🔍-</button>
+        <button className="toolbar-btn" onClick={bringForward} title="Bring Forward">⬆️</button>
+        <button className="toolbar-btn" onClick={sendBackward} title="Send Backward">⬇️</button>
+        <button className="toolbar-btn" onClick={toggleGrid} title="Toggle Grid">#</button>
+        <button className="toolbar-btn" onClick={zoomIn} title="Zoom In">🔍+</button>
+        <button className="toolbar-btn" onClick={zoomOut} title="Zoom Out">🔍-</button>
       </div>
     </div>
   );
