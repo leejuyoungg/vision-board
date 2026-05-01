@@ -1,5 +1,13 @@
 const express = require('express');
 const cors = require('cors');
+
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'https://vision-board-zqtl-9801yixnf-leejuyounggs-projects.vercel.app'  // 추가!
+  ],
+  credentials: true
+}));
 const connectDB = require('./config/db');
 require('dotenv').config();
 
